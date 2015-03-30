@@ -11,7 +11,7 @@
 #include "Joystick.h"
 #include <map>
 
-typedef	enum ButtonAction
+enum ButtonAction
 {
 	ButtonAction_Pressed,
 	ButtonAction_Held,
@@ -19,7 +19,30 @@ typedef	enum ButtonAction
 	ButtonAction_end
 };
 
-typedef	enum XBOX360_BUTTON
+/*
+ * Driver Controller 0
+ * y = 4
+ * x = 3
+ * a = 1
+ * b = 2
+ * rb = 6
+ * lb = 5
+ * start = 8
+ * back = 7
+ * rstick press = 10
+ * lstick press = 9
+ * rtrig = axis 3
+ * ltrigger = axis 2
+ * lstick front/back = axis 1
+ * lstick side/side = axis 0
+ * rstick front/back = axis 5
+ * rstick side/side = axis 4
+ *
+ */
+
+
+
+enum XBOX360_BUTTON
 {
 	XBOX360_A 				= 1,
 	XBOX360_B 				= 2,
@@ -34,11 +57,12 @@ typedef	enum XBOX360_BUTTON
 	XBOX360_BUTTON_END 		= 11
 };
 
-typedef	enum XBOX360_AXIS
+enum XBOX360_AXIS
 {
-	XBOX360_LEFT_X 		= 1,
-	XBOX360_LEFT_Y 		= 2,
-	XBOX360_TRIGGERS 	= 3,
+	XBOX360_LEFT_X 		= 0,
+	XBOX360_LEFT_Y 		= 1,
+	XBOX360_LTRIGGER 	= 2,
+	XBOX360_RTRIGGER	= 3,
 	XBOX360_RIGHT_X 	= 4,
 	XBOX360_RIGHT_Y 	= 5,
 	XBOX360_DPAD_X 		= 6,
@@ -46,15 +70,34 @@ typedef	enum XBOX360_AXIS
 	XBOX360_AXIS_END 	= 8
 };
 
-typedef struct MoveInput
+typedef struct XBOX_AxisState
 {
-	float Raw_X;
-	float Raw_Y;
-	float Yaw;
-	float Triggers;
+	float Raw_LX;
+	float Raw_LY;
+	float Raw_RX;
+	float Raw_RY;
+	float LTrigger;
+	float RTrigger;
+	int   DPAD_X;  // Not Implemented Yet
+	int   DPAD_Y;  // Not Implemented Yet
 	float RelativeHeading;
 	float Magnitude;
-};
+} XBOX_AxisState;
+
+typedef struct XBOX_ButtonState
+{
+	bool A;
+	bool B;
+	bool X;
+	bool Y;
+	bool LeftBumper;
+	bool RightBumper;
+	bool Back;
+	bool Start;
+	bool LeftStick;
+	bool RightStick;
+} XBOX_ButtonState;
+
 
 class XBOX360_Controller : public Joystick
 {
@@ -62,7 +105,7 @@ public:
 	XBOX360_Controller(const char *name, uint32_t port);
 	~XBOX360_Controller();
 
-	void Set_DeadZones(float xmin, float ymin, float yawMin, float triggermin);
+	void Set_DeadZones(float lxmin, float lymin, float rxmin, float rymin, float ltriggermin, float rtriggermin);
 
 	void Rumble_Left(float intensity);
 	void Rumble_Right(float intensity);
@@ -72,7 +115,8 @@ public:
 	void Assign_Yaw(XBOX360_AXIS axis);
 	void Assign_ButtonCommand(XBOX360_BUTTON button, Command *command, ButtonAction action = ButtonAction_Pressed);
 
-	MoveInput Get_CommandedMovement();
+	XBOX_AxisState Get_AxisState();
+	XBOX_ButtonState Get_ButtonState();
 
 private:
 	std::string 	m_Name;
@@ -88,7 +132,7 @@ private:
 	JoystickButton* m_X;
 	JoystickButton* m_B;
 	JoystickButton* m_Y;
-	float			xDZ, yDZ, yawDZ, trigDZ;
+	float			LSxDZ, LSyDZ, RSxDZ, RSyDZ, LtrigDZ, RtrigDZ;
 
     std::map<int,JoystickButton*> buttonMap;
 };

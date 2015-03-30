@@ -26,21 +26,21 @@ void MoveStrafeDrive::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void MoveStrafeDrive::Execute() {
-	if (Robot::oi->getDriverInterface()->Get_CommandedMovement().Triggers > 0.0)
+	axisState = Robot::oi->getOperatorInterface()->Get_AxisState();
+	if (axisState.RTrigger > 0.0)
 	{
-		Robot::strafingDrive->SetDrive_Arcade(Robot::oi->getDriverInterface()->Get_CommandedMovement().Yaw, true);
+		Robot::strafingDrive->SetDrive_Arcade(axisState.Raw_RX, true);
 	} else
 	{
-		Robot::strafingDrive->SetDrive_Arcade(Robot::oi->getDriverInterface()->Get_CommandedMovement().Yaw, false);
+		Robot::strafingDrive->SetDrive_Arcade(axisState.Raw_RX, false);
 	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool MoveStrafeDrive::IsFinished() {
-	if ((Robot::oi->getDriverInterface()->Get_CommandedMovement().Yaw) == 0.0)
+	if ((axisState.Raw_RX) == 0.0)
 		{
 		    Robot::strafingDrive->Stop();
-		    return true;
 		}
 		return false;
 }

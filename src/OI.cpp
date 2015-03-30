@@ -50,8 +50,8 @@ OI::OI() {
 	//driverInterface = new Joystick(0);
 	
 	operatorInterface = new XBOX360_Controller("Operator",1);
-    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_RIGHT_BUMPER,new SpinnersIn());
-    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_LEFT_BUMPER, new SpinnersOut());
+    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_RIGHT_BUMPER,new SpinnersOut());
+    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_LEFT_BUMPER, new SpinnersIn());
     operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_RIGHT_STICK, new SpinnersRotateClk());
 	
 

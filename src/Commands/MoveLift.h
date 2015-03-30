@@ -15,13 +15,15 @@
 
 #include "Commands/Subsystem.h"
 #include "../Robot.h"
-
+#include "Xbox360_Controller.h"
 /**
  *
  *
  * @author ExampleAuthor
  */
 class MoveLift: public Command {
+private:
+	XBOX_AxisState axisState;
 public:
 	MoveLift();
 	virtual void Initialize();

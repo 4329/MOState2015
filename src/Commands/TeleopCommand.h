@@ -8,14 +8,16 @@
 #include "Commands/MoveForwardDrive.h"
 #include "Commands/MoveStrafeDrive.h"
 #include "Commands/MoveLift.h"
+#include "Xbox360_Controller.h"
 
 
 class TeleopCommand: public Command {
-public:
+private:
 	Command *moveForwardDrive;
 	Command *moveStrafeDrive;
 	Command *moveLift;
-
+	XBOX_AxisState axisState;
+public:
 	TeleopCommand();
 	virtual void Initialize();
 	virtual void Execute();

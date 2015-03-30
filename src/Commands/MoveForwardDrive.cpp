@@ -26,24 +26,24 @@ void MoveForwardDrive::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void MoveForwardDrive::Execute() {
-	if (Robot::oi->getDriverInterface()->Get_CommandedMovement().Triggers > 0.0)
+	axisState = Robot::oi->getOperatorInterface()->Get_AxisState();
+	if (axisState.RTrigger > 0.0)
 	{
-		Robot::forwardDrive->SetDrive_Arcade(Robot::oi->getDriverInterface()->Get_CommandedMovement().Raw_Y,
-				Robot::oi->getDriverInterface()->Get_CommandedMovement().Raw_X	, true);
+		Robot::forwardDrive->SetDrive_Arcade(axisState.Raw_LY,
+				axisState.Raw_LX, true);
 	} else
 	{
-		Robot::forwardDrive->SetDrive_Arcade(Robot::oi->getDriverInterface()->Get_CommandedMovement().Raw_Y,
-				Robot::oi->getDriverInterface()->Get_CommandedMovement().Raw_X	, false);
+		Robot::forwardDrive->SetDrive_Arcade(axisState.Raw_LY,
+				axisState.Raw_LX, false);
 	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool MoveForwardDrive::IsFinished() {
-	if (((Robot::oi->getDriverInterface()->Get_CommandedMovement().Raw_Y) == 0.0) &&
-			((Robot::oi->getDriverInterface()->Get_CommandedMovement().Raw_X) == 0.0))
+	if (((axisState.Raw_LY) == 0.0) &&
+			((axisState.Raw_LX) == 0.0))
 		{
 		    Robot::forwardDrive->Stop();
-		    return true;
 		}
 		return false;
 }

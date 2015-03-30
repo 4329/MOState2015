@@ -9,7 +9,7 @@
 
 
 XBOX360_Controller::XBOX360_Controller(const char *name, uint32_t port) :
-		Joystick(port,7,10)
+		Joystick(port,8,10)
 {
 	m_Name = name;
 	m_Port = port;
@@ -39,20 +39,21 @@ XBOX360_Controller::XBOX360_Controller(const char *name, uint32_t port) :
 	buttonMap[XBOX360_B] = 	m_B;
 
 	m_X				= new JoystickButton(this, XBOX360_X);
-	buttonMap[XBOX360_RIGHT_STICK] = m_X;
+	buttonMap[XBOX360_X] = m_X;
 
 	m_Y				= new JoystickButton(this, XBOX360_Y);
 	buttonMap[XBOX360_Y] = m_Y;
 
-	SetAxisChannel(kXAxis,XBOX360_LEFT_X);
-	SetAxisChannel(kYAxis,XBOX360_LEFT_Y);
-	SetAxisChannel(kTwistAxis,XBOX360_RIGHT_X);
+	Assign_Move_SideToSide(XBOX360_LEFT_X);
+	Assign_Move_FrontToBack(XBOX360_LEFT_Y);
+	Assign_Yaw(XBOX360_RIGHT_X);
 
-	xDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::X");
-	yDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::Y");
-	yawDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::YAW");
-	trigDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::TrigDZ");
-
+	LSxDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::LeftStick::X");
+	LSyDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::LeftStick::Y");
+	RSxDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::RightStick::X");
+	RSyDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::RightStick::Y");
+	LtrigDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::LeftTrigger");
+	RtrigDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::RightTrigger");
 }
 
 
@@ -71,12 +72,14 @@ XBOX360_Controller::~XBOX360_Controller()
 	delete m_Y;
 }
 
-void XBOX360_Controller::Set_DeadZones(float xmin, float ymin, float yawMin, float triggermin)
+void XBOX360_Controller::Set_DeadZones(float lxmin, float lymin, float rxmin, float rymin, float ltriggermin, float rtriggermin)
 {
-	xDZ = xmin;
-	yDZ = ymin;
-	yawDZ = yawMin;
-	trigDZ = triggermin;
+	LSxDZ = lxmin;
+	LSyDZ = lymin;
+	RSxDZ = rxmin;
+	RSyDZ = rymin;
+	LtrigDZ = ltriggermin;
+	RtrigDZ = rtriggermin;
 }
 
 void XBOX360_Controller::Rumble_Left(float intensity)
@@ -123,15 +126,33 @@ void XBOX360_Controller::Assign_ButtonCommand(XBOX360_BUTTON button, Command *co
 	}
 }
 
-MoveInput XBOX360_Controller::Get_CommandedMovement()
+XBOX_AxisState XBOX360_Controller::Get_AxisState()
 {
-	MoveInput retval;
-	retval.Raw_X = (abs(GetX()) > xDZ ) ? GetX() : 0.0;
-	retval.Raw_Y = (abs(GetY()) > yDZ ) ? GetY() : 0.0;
-	retval.Yaw = (abs(GetTwist())> yawDZ) ? GetTwist() : 0.0;
-	retval.Triggers = (abs(GetThrottle()) > trigDZ) ? GetThrottle() : 0.0;
-
+	XBOX_AxisState retval;
+	retval.Raw_LX = (abs(GetRawAxis(XBOX360_LEFT_X)) > LSxDZ ) ? GetRawAxis(XBOX360_LEFT_X) : 0.0;
+	retval.Raw_LY = (abs(GetRawAxis(XBOX360_LEFT_Y)) > LSyDZ ) ? GetRawAxis(XBOX360_LEFT_Y) : 0.0;
+	retval.Raw_RX = (abs(GetRawAxis(XBOX360_RIGHT_X))> RSxDZ) ? GetRawAxis(XBOX360_RIGHT_X) : 0.0;
+	retval.Raw_RY = (abs(GetRawAxis(XBOX360_RIGHT_Y))> RSyDZ) ? GetRawAxis(XBOX360_RIGHT_Y) : 0.0;
+	retval.RTrigger = (GetRawAxis(XBOX360_RTRIGGER) > RtrigDZ) ? GetRawAxis(XBOX360_RTRIGGER) : 0.0;
+	retval.LTrigger = (GetRawAxis(XBOX360_LTRIGGER) > LtrigDZ) ? GetRawAxis(XBOX360_LTRIGGER) : 0.0;
 	retval.Magnitude = GetMagnitude();
 	retval.RelativeHeading = GetDirectionDegrees();
 	return retval;
 }
+
+XBOX_ButtonState XBOX360_Controller::Get_ButtonState()
+{
+	XBOX_ButtonState retval;
+	retval.A = GetRawButton(XBOX360_A);
+	retval.B = GetRawButton(XBOX360_B);
+	retval.X = GetRawButton(XBOX360_X);
+	retval.Y = GetRawButton(XBOX360_Y);
+	retval.LeftBumper = GetRawButton(XBOX360_LEFT_BUMPER);
+	retval.RightBumper = GetRawButton(XBOX360_RIGHT_BUMPER);
+	retval.Back = GetRawButton(XBOX360_BACK);
+	retval.Start = GetRawButton(XBOX360_START);
+	retval.LeftStick = GetRawButton(XBOX360_LEFT_STICK);
+	retval.RightStick = GetRawButton(XBOX360_RIGHT_STICK);
+	return retval;
+}
+

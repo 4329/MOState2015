@@ -37,7 +37,8 @@ void ElevatorLift::InitDefaultCommand() {
 
 void ElevatorLift::SetLiftConfig()
 {
-	liftTalon->SetControlMode(CANSpeedController::kPosition);
+	//liftTalon->SetControlMode(CANSpeedController::kPosition);
+	liftTalon->SetControlMode(CANSpeedController::kVoltage);
 	liftTalon->SetFeedbackDevice(CANTalon::QuadEncoder);
     if (Preferences::GetInstance()->GetBoolean("ElevatorLift::LiftTalon::SensorReversed"))
     {

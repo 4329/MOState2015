@@ -21,23 +21,32 @@ MoveLift::MoveLift() {
 
 // Called just before this Command runs the first time
 void MoveLift::Initialize() {
-	Robot::brake->Release();
+
 }
 
 // Called repeatedly when this Command is scheduled to run
 void MoveLift::Execute() {
-	Robot::elevatorLift->MoveLift(Robot::oi->getOperatorInterface()->Get_CommandedMovement().Raw_Y);
+	axisState = Robot::oi->getOperatorInterface()->Get_AxisState();
+	if ((axisState.Raw_LY) > 0.0)
+	{
+		Robot::brake->Release();
+	    Robot::elevatorLift->MoveLift(axisState.Raw_LY);
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool MoveLift::IsFinished() {
-	if ((Robot::oi->getOperatorInterface()->Get_CommandedMovement().Raw_Y) == 0.0) return true;
+	if ((axisState.Raw_LY) == 0.0)
+		{
+		   Robot::elevatorLift->StopLift();
+		   Robot::brake->Engage();
+		}
 	return false;
 }
 
 // Called once after isFinished returns true
 void MoveLift::End() {
-	Robot::brake->Engage();
+
 }
 
 // Called when another command which requires one or more of the same

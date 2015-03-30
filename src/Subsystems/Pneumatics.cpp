@@ -33,3 +33,12 @@ void Pneumatics::InitDefaultCommand() {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
+void Pneumatics::On()
+{
+	compressor->Start();
+}
+
+void Pneumatics::Off()
+{
+	compressor->Stop();
+}
