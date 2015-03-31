@@ -41,7 +41,7 @@ public:
 
 	void Stop();
 	void Set_PositionMode();
-	void Set_SpeedMode();
+	void Set_VoltageMode();
 	void Zero_Encoder();
 	int Get_Encoder();
 	void Config();

@@ -31,8 +31,8 @@ void SpinnersOut::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool SpinnersOut::IsFinished() {
-	if (!Robot::oi->getOperatorInterface()->GetRawButton(XBOX360_LEFT_BUMPER)) return true;
-	return false;
+	if (Robot::oi->getOperatorInterface()->GetRawButton(XBOX360_LEFT_BUMPER)) return false;
+	return true;
 }
 
 // Called once after isFinished returns true

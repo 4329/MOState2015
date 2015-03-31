@@ -129,10 +129,10 @@ void XBOX360_Controller::Assign_ButtonCommand(XBOX360_BUTTON button, Command *co
 XBOX_AxisState XBOX360_Controller::Get_AxisState()
 {
 	XBOX_AxisState retval;
-	retval.Raw_LX = (abs(GetRawAxis(XBOX360_LEFT_X)) > LSxDZ ) ? GetRawAxis(XBOX360_LEFT_X) : 0.0;
-	retval.Raw_LY = (abs(GetRawAxis(XBOX360_LEFT_Y)) > LSyDZ ) ? GetRawAxis(XBOX360_LEFT_Y) : 0.0;
-	retval.Raw_RX = (abs(GetRawAxis(XBOX360_RIGHT_X))> RSxDZ) ? GetRawAxis(XBOX360_RIGHT_X) : 0.0;
-	retval.Raw_RY = (abs(GetRawAxis(XBOX360_RIGHT_Y))> RSyDZ) ? GetRawAxis(XBOX360_RIGHT_Y) : 0.0;
+	retval.Raw_LX = ((GetRawAxis(XBOX360_LEFT_X)*GetRawAxis(XBOX360_LEFT_X)) > LSxDZ ) ? GetRawAxis(XBOX360_LEFT_X) : 0.0;
+	retval.Raw_LY = ((GetRawAxis(XBOX360_LEFT_Y)*GetRawAxis(XBOX360_LEFT_Y)) > LSyDZ ) ? GetRawAxis(XBOX360_LEFT_Y) : 0.0;
+	retval.Raw_RX = ((GetRawAxis(XBOX360_RIGHT_X)*GetRawAxis(XBOX360_RIGHT_X))> RSxDZ) ? GetRawAxis(XBOX360_RIGHT_X) : 0.0;
+	retval.Raw_RY = ((GetRawAxis(XBOX360_RIGHT_Y)*GetRawAxis(XBOX360_RIGHT_Y))> RSyDZ) ? GetRawAxis(XBOX360_RIGHT_Y) : 0.0;
 	retval.RTrigger = (GetRawAxis(XBOX360_RTRIGGER) > RtrigDZ) ? GetRawAxis(XBOX360_RTRIGGER) : 0.0;
 	retval.LTrigger = (GetRawAxis(XBOX360_LTRIGGER) > LtrigDZ) ? GetRawAxis(XBOX360_LTRIGGER) : 0.0;
 	retval.Magnitude = GetMagnitude();

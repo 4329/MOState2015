@@ -24,7 +24,7 @@
 #include "Commands/LiftDownOneTote.h"
 #include "Commands/LiftHome.h"
 #include "Commands/LiftUpOneTote.h"
-#include "Commands/MoveLift.h"
+#include "Commands/MoveElevatorLift.h"
 #include "Commands/MoveForwardDrive.h"
 #include "Commands/MoveFwdDriveByVector.h"
 #include "Commands/MoveStrafeDrive.h"
@@ -49,14 +49,18 @@ OI::OI() {
 
 	//driverInterface = new Joystick(0);
 	
+	driverInterface = new XBOX360_Controller("Driver",0);
+
 	operatorInterface = new XBOX360_Controller("Operator",1);
-    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_RIGHT_BUMPER,new SpinnersOut());
-    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_LEFT_BUMPER, new SpinnersIn());
-    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_RIGHT_STICK, new SpinnersRotateClk());
+    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_LEFT_BUMPER,new SpinnersOut(),ButtonAction::ButtonAction_Pressed);
+
+    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_RIGHT_BUMPER, new SpinnersIn(),ButtonAction::ButtonAction_Pressed);
+
+    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_RIGHT_STICK, new SpinnersRotateClk(),ButtonAction::ButtonAction_Pressed);
 	
 
 
-	driverInterface = new XBOX360_Controller("Driver",0);
+
 
 
 
