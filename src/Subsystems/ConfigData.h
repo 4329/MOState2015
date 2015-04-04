@@ -47,6 +47,14 @@ typedef struct
 	int    Brake_PCMID;
 	int    Brake_BrakeSolenoid;
 	bool   Brake_ActiveIsEngaged;
+	int    RightCanBurgler_PCMID;
+	int    RightCanBurgler_CanBurglerForwardSolenoid;
+	int    RightCanBurgler_CanBurglerReverseSolenoid;
+	bool   RightCanBurgler_ExtendedIsForward;
+	int    LeftCanBurgler_PCMID;
+	int    LeftCanBurgler_CanBurglerForwardSolenoid;
+	int    LeftCanBurgler_CanBurglerReverseSolenoid;
+	bool   LeftCanBurgler_ExtendedIsForward;
 	bool   Compressor_PCMID;
 	float  ForwardDrive_HighSpeed;
 	float  ForwardDrive_LowSpeed;

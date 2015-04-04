@@ -26,7 +26,17 @@ void SpinnersRotateClk::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void SpinnersRotateClk::Execute() {
-	Robot::spinners->Rotate();
+	axisState = Robot::oi->getOperatorInterface()->Get_AxisState();
+	if ((axisState.Raw_RX) > 0.0)
+	{
+		Robot::spinners->RotateCW();
+	} else if ((axisState.Raw_RX) < 0.0)
+	{
+		Robot::spinners->RotateCCW();
+	} else
+	{
+		Robot::spinners->Stop();
+	}
 }
 
 // Make this return true when this Command no longer needs to run execute()

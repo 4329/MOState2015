@@ -42,10 +42,10 @@ void StrafingDrive::SetDrive_Arcade(float x, bool highRate)
 {
 	if (highRate)
 	{
-		Master->Set(Limit(x)*HighSpeedRate);
+		Master->Set(-Limit(x)*HighSpeedRate);
 	} else
 	{
-		Master->Set(Limit(x)*LowSpeedRate);
+		Master->Set(-Limit(x)*LowSpeedRate);
 	}
 }
 

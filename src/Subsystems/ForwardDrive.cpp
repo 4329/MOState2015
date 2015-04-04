@@ -116,17 +116,23 @@ void ForwardDrive::SetDrive_Arcade(float x, float y, bool highRate)
 	tx = Limit(x);
 	ty = Limit(y);
 
+	printf("FD X %f   Y %f\n",tx,ty);
 	if (ty > 0.0)
 	{
+
 		if (tx > 0.0)
 		{
 			leftMotorOutput = ty - tx;
 			rightMotorOutput = std::max(ty, tx);
 		}
-		else
+		else if (tx < 0.0)
 		{
 			leftMotorOutput = std::max(ty, -tx);
 			rightMotorOutput = ty + tx;
+		} else
+		{
+			leftMotorOutput = ty;
+			rightMotorOutput = ty;
 		}
 	}
 	else
@@ -136,10 +142,14 @@ void ForwardDrive::SetDrive_Arcade(float x, float y, bool highRate)
 			leftMotorOutput = - std::max(-ty, tx);
 			rightMotorOutput = ty + tx;
 		}
-		else
+		else if (tx < 0.0)
 		{
 			leftMotorOutput = ty - tx;
 			rightMotorOutput = - std::max(-ty, -tx);
+		} else
+		{
+			leftMotorOutput = ty;
+			rightMotorOutput = ty;
 		}
 	}
 

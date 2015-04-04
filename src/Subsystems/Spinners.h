@@ -38,7 +38,8 @@ public:
 	void InitDefaultCommand();
 	void Intake();
 	void Expel();
-	void Rotate();
+	void RotateCW();
+	void RotateCCW();
 	void Stop();
 };
 

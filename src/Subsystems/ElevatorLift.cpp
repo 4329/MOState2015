@@ -72,6 +72,8 @@ void ElevatorLift::SetLiftConfig()
 	liftTalon->ConfigFwdLimitSwitchNormallyOpen(true);
 	liftTalon->ConfigRevLimitSwitchNormallyOpen(true);
 
+	rate = Preferences::GetInstance()->GetFloat("ElevatorLift::Rate");
+
 	liftTalon->EnableControl();
 }
 
@@ -103,7 +105,7 @@ bool ElevatorLift::AtTop()
 void ElevatorLift::MoveLift(float val)
 {
 	liftTalon->EnableControl();
-	liftTalon->Set(val);
+	liftTalon->Set(val*rate);
 }
 
 void ElevatorLift::Home()

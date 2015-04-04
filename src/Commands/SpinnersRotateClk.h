@@ -15,13 +15,15 @@
 
 #include "Commands/Subsystem.h"
 #include "../Robot.h"
-
+#include "Xbox360_Controller.h"
 /**
  *
  *
  * @author ExampleAuthor
  */
 class SpinnersRotateClk: public Command {
+private:
+	XBOX_AxisState axisState;
 public:
 	SpinnersRotateClk();
 	virtual void Initialize();
