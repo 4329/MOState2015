@@ -21,28 +21,24 @@ SetLiftHome::SetLiftHome() {
 
 // Called just before this Command runs the first time
 void SetLiftHome::Initialize() {
-	Robot::brake->Release();
+
 }
 
 // Called repeatedly when this Command is scheduled to run
 void SetLiftHome::Execute() {
-	Robot::elevatorLift->LowerLift();
+	Robot::elevatorLift->MoveLift(-1.0);
 }
 
 // Make this return true when this Command no longer needs to run execute()
 bool SetLiftHome::IsFinished() {
-	if (Robot::elevatorLift->AtBottom())
-	{
-		Robot::elevatorLift->StopLift();
-		Robot::brake->Engage();
-		return true;
-	}
+	if (Robot::elevatorLift->AtBottom()) return true;
 	return false;
 }
 
 // Called once after isFinished returns true
 void SetLiftHome::End() {
-	
+	Robot::elevatorLift->StopLift();
+	Robot::elevatorLift->Set_PosZero();
 }
 
 // Called when another command which requires one or more of the same

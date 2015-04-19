@@ -22,8 +22,17 @@
  * @author ExampleAuthor
  */
 class MoveFwdDriveByVector: public Command {
+private:
+	int _heading;
+	float distance;
+	float MaxFDThrottle;
+	float ThrottleRamp;
+	float Throttle;
+	bool  first;
+	int   timeo;
+
 public:
-	MoveFwdDriveByVector();
+	MoveFwdDriveByVector(int heading, float inches, int timeout);
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();

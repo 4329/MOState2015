@@ -10,6 +10,7 @@
 #include "WPILib.h"
 #include "Joystick.h"
 #include <map>
+#include "Configurable.h"
 
 enum ButtonAction
 {
@@ -99,11 +100,14 @@ typedef struct XBOX_ButtonState
 } XBOX_ButtonState;
 
 
-class XBOX360_Controller : public Joystick
+class XBOX360_Controller : public Joystick, public Configurable
 {
 public:
 	XBOX360_Controller(const char *name, uint32_t port);
-	~XBOX360_Controller();
+	virtual ~XBOX360_Controller();
+	virtual void RetrieveConfig();
+	virtual void StoreConfig();
+	virtual void Configure();
 
 	void Set_DeadZones(float lxmin, float lymin, float rxmin, float rymin, float ltriggermin, float rtriggermin);
 

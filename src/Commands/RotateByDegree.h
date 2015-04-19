@@ -22,8 +22,11 @@
  * @author ExampleAuthor
  */
 class RotateByDegree: public Command {
+	float cmdDegrees;
+	bool first;
+
 public:
-	RotateByDegree();
+	RotateByDegree(float degrees);
 	virtual void Initialize();
 	virtual void Execute();
 	virtual bool IsFinished();

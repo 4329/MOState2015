@@ -11,6 +11,11 @@
 
 
 #include "AutoCanGrab.h"
+#include "MoveFwdDriveByVector.h"
+#include "ExtendCanBurgler.h"
+#include "AutoJerk.h"
+#include "RetractCanBurgler.h"
+#include "WaitCycle.h"
 
 AutoCanGrab::AutoCanGrab() {
 	// Add Commands here:
@@ -29,4 +34,26 @@ AutoCanGrab::AutoCanGrab() {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
+	 Requires(Robot::forwardDrive);
+	 Requires(Robot::canBurgler);
+	 Requires(Robot::strafingDrive);
+
+	 bool even = false;
+	 AddSequential(new MoveFwdDriveByVector(180.0,Robot::autonomousConfig->AutoMode_3_MoveBack,Robot::autonomousConfig->AutoMode_3_MoveBackTimeout));
+	 AddSequential(new ExtendCanBurgler());
+	 for (int i = 0; i < Robot::autonomousConfig->AutoMode_3_JerkMult; i++)
+	 {
+		 if (even == false)
+		 {
+			 AddSequential(new AutoJerk(Robot::autonomousConfig->AutoMode_3_Jerk));
+			 even = true;
+		 } else
+		 {
+			 AddSequential(new AutoJerk(-1.0 * Robot::autonomousConfig->AutoMode_3_Jerk));
+			 even = false;
+		 }
+	 }
+	 AddSequential(new WaitCycle(Robot::autonomousConfig->AutoMode_3_Wait));
+	 AddSequential(new MoveFwdDriveByVector(0.0,Robot::autonomousConfig->AutoMode_3_MoveFwd,Robot::autonomousConfig->AutoMode_3_MoveFwdTimeout));
+	 AddSequential(new RetractCanBurgler());
 }

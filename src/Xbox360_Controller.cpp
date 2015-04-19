@@ -48,12 +48,7 @@ XBOX360_Controller::XBOX360_Controller(const char *name, uint32_t port) :
 	Assign_Move_FrontToBack(XBOX360_LEFT_Y);
 	Assign_Yaw(XBOX360_RIGHT_X);
 
-	LSxDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::LeftStick::X");
-	LSyDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::LeftStick::Y");
-	RSxDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::RightStick::X");
-	RSyDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::RightStick::Y");
-	LtrigDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::LeftTrigger");
-	RtrigDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::RightTrigger");
+
 }
 
 
@@ -70,6 +65,31 @@ XBOX360_Controller::~XBOX360_Controller()
 	delete m_X;
 	delete m_B;
 	delete m_Y;
+}
+
+void XBOX360_Controller::RetrieveConfig()
+{
+	LSxDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::LeftStick::X");
+	LSyDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::LeftStick::Y");
+	RSxDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::RightStick::X");
+	RSyDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::RightStick::Y");
+	LtrigDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::LeftTrigger");
+	RtrigDZ = Preferences::GetInstance()->GetFloat("XBox::DeadZone::RightTrigger");
+}
+
+void XBOX360_Controller::StoreConfig()
+{
+	Preferences::GetInstance()->PutFloat("XBox::DeadZone::LeftStick::X",LSxDZ);
+    Preferences::GetInstance()->PutFloat("XBox::DeadZone::LeftStick::Y",LSyDZ);
+	Preferences::GetInstance()->PutFloat("XBox::DeadZone::RightStick::X",RSxDZ);
+	Preferences::GetInstance()->PutFloat("XBox::DeadZone::RightStick::Y",RSyDZ);
+	Preferences::GetInstance()->PutFloat("XBox::DeadZone::LeftTrigger",LtrigDZ);
+	Preferences::GetInstance()->PutFloat("XBox::DeadZone::RightTrigger",RtrigDZ);
+}
+
+void XBOX360_Controller::Configure()
+{
+	// Do Nothing.
 }
 
 void XBOX360_Controller::Set_DeadZones(float lxmin, float lymin, float rxmin, float rymin, float ltriggermin, float rtriggermin)
