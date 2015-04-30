@@ -22,6 +22,11 @@ public:
 	void SetConfig();
 	void SaveConfiguration();
 	std::string RobotName;
+	bool LED_Enable;
+	int  LED_AlianceIndicator;
+	int  LED_AlianceBlue;
+	int  LED_AutoIndicator;
+	int  LED_TeleopIndicator;
 };
 
 #endif

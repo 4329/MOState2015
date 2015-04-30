@@ -38,6 +38,11 @@ void Config::InitDefaultCommand() {
 
 void Config::ReadConfig(){
 	RobotName = Preferences::GetInstance()->GetString("RobotType");
+	LED_Enable = Preferences::GetInstance()->GetBoolean("LED::Enable",false);
+	LED_AlianceIndicator = Preferences::GetInstance()->GetInt("LED::AlianceIndicator",-1);
+	LED_AlianceBlue = Preferences::GetInstance()->GetInt("LED::AlianceBlue",1);
+	LED_AutoIndicator = Preferences::GetInstance()->GetInt("LED::AutoIndicator",-1);
+	LED_TeleopIndicator = Preferences::GetInstance()->GetInt("LED::TeleopIndicator",-1);
 	Robot::forwardDrive->RetrieveConfig();
 	Robot::strafingDrive->RetrieveConfig();
 	Robot::elevatorLift->RetrieveConfig();
@@ -54,6 +59,11 @@ void Config::ReadConfig(){
 
 void Config::SetConfig(){
 	Preferences::GetInstance()->PutString("RobotType",RobotName.c_str());
+	Preferences::GetInstance()->PutBoolean("LED::Enable",LED_Enable);
+	Preferences::GetInstance()->PutInt("LED::AlianceIndicator",LED_AlianceIndicator);
+	Preferences::GetInstance()->PutInt("LED::AlianceBlue",LED_AlianceBlue);
+	Preferences::GetInstance()->PutInt("LED::AutoIndicator",LED_AutoIndicator);
+	Preferences::GetInstance()->PutInt("LED::TeleopIndicator",LED_TeleopIndicator);
 	Robot::forwardDrive->StoreConfig();
 	Robot::strafingDrive->StoreConfig();
 	Robot::elevatorLift->StoreConfig();

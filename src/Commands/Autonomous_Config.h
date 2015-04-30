@@ -7,6 +7,10 @@
 class Autonomous_Config: public Configurable
 {
 public:
+	bool  AutoUseHWSelectors;
+	int   AutoHW_Enable;
+	int   AutoHW_Bit1;
+	int   AutoHW_Bit2;
 	int   AutonomousMode_Type;
 	float Autonomous_MaxFDThrottle;
 	float Autonomous_MaxSideThrottle;

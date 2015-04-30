@@ -56,10 +56,6 @@ OI::OI() {
 
     operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_B, new RetractCanBurgler(),ButtonAction::ButtonAction_Released);
 
-//    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_Y, new PickupTote(),ButtonAction::ButtonAction_Pressed);
-
-//    operatorInterface->Assign_ButtonCommand(XBOX360_BUTTON::XBOX360_A, new PlaceTote(),ButtonAction::ButtonAction_Pressed);
-
         // SmartDashboard Buttons
 //	SmartDashboard::PutData("Autonomous Command", new AutonomousCommand());
 

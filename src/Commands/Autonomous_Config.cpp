@@ -15,6 +15,10 @@ Autonomous_Config::~Autonomous_Config()
 
 void Autonomous_Config::RetrieveConfig()
 {
+	AutoUseHWSelectors = Preferences::GetInstance()->GetBoolean("AutoUseHwSelectors");
+	AutoHW_Enable = Preferences::GetInstance()->GetInt("AutoHW::Enable");
+	AutoHW_Bit1 = Preferences::GetInstance()->GetInt("AutoHW::BIT1");
+	AutoHW_Bit2 = Preferences::GetInstance()->GetInt("AutoHW::BIT2");
 	AutonomousMode_Type  = Preferences::GetInstance()->GetInt("AutonomousMode::Type");
 	Autonomous_MaxFDThrottle = Preferences::GetInstance()->GetFloat("Autonomous::MaxFDThrottle");
 	Autonomous_MaxSideThrottle = Preferences::GetInstance()->GetFloat("Autonomous::MaxSideThrottle");
@@ -46,6 +50,10 @@ void Autonomous_Config::RetrieveConfig()
 
 void Autonomous_Config::StoreConfig()
 {
+	Preferences::GetInstance()->PutBoolean("AutoUseHwSelectors", AutoUseHWSelectors);
+	Preferences::GetInstance()->PutInt("AutoHW::Enable",AutoHW_Enable);
+	Preferences::GetInstance()->PutInt("AutoHW::BIT1", AutoHW_Bit1);
+	Preferences::GetInstance()->PutInt("AutoHW::BIT2",AutoHW_Bit2);
 	Preferences::GetInstance()->PutInt("AutonomousMode::Type",AutonomousMode_Type);
 	Preferences::GetInstance()->PutFloat("Autonomous::MaxFDThrottle", Autonomous_MaxFDThrottle);
 	Preferences::GetInstance()->PutFloat("Autonomous::MaxSideThrottle", Autonomous_MaxSideThrottle);
